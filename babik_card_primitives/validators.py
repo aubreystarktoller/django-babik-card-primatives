@@ -2,6 +2,7 @@ import re
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+from babik_card_primitives.exceptions import IssuerNotRecognised
 from babik_card_primitives.utils import (
     card_number_luhn_test,
     get_card_issuer
@@ -29,7 +30,7 @@ class CardNumberLuhnTestValidator(object):
             raise ValidationError(self.message, code=self.code)
 
 
-class CardNumberIssuerWhiteListValidator(object):
+class CardNumberIssuerWhitelistValidator(object):
     code = 'invalid_issuer'
     message = _('Invalid issuer')
 
@@ -41,9 +42,13 @@ class CardNumberIssuerWhiteListValidator(object):
             self.code = code
 
     def __call__(self, value):
-        issuer = get_card_issuer(value)
-        if issuer not in self.whitelist:
+        try:
+            issuer_slug, issuer_name = get_card_issuer(value)
+        except IssuerNotRecognised as e:
             raise ValidationError(self.message, code=self.code)
+        else:
+            if issuer_slug not in self.whitelist:
+                raise ValidationError(self.message, code=self.code)
 
 
 class CardSecurityCodeValidator(object):
@@ -58,5 +63,5 @@ class CardSecurityCodeValidator(object):
             self.code = code
 
     def __call__(self, value):
-        if not self.regex.match(value):
+        if not self.regex.match(str(value)):
             raise ValidationError(self.message, code=self.code)

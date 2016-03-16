@@ -16,7 +16,7 @@ from babik_card_primitives.validators import (
     CardNumberIssuerWhitelistValidator,
     CardSecurityCodeValidator
 )
-from babik_card_primatives.widgets import SensitiveDataInput, SensitiveSelect
+from babik_card_primitives.widgets import SensitiveInput, SensitiveSelect
 
 
 CARD_NUMBER_MIN_LENGTH = 10
@@ -24,7 +24,7 @@ CARD_NUMBER_MAX_LENGTH = 25
 
 
 class CardNumberField(forms.Field):
-    widget = SensitiveDataInput
+    widget = SensitiveInput
 
     default_error_messages = {
         'invalid': _('Invalid card number'),
@@ -107,7 +107,7 @@ class TwoFieldCardDateField(forms.MultiValueField):
                  client_side_only=False, error_messages=None, *args,
                  **kwargs):
         self.client_side_only = client_side_only
-        self.required = self.required
+        self.required = required
 
         if isinstance(empty_label, (list, tuple)):
             if not len(empty_label) == 2:
@@ -124,23 +124,23 @@ class TwoFieldCardDateField(forms.MultiValueField):
             self.year_none_value = self.none_value
             self.month_none_value = self.none_value
 
-        month_values = [(str(n), '%02d' % n) for n in range(1, 13)]
-        year = timezone.now().year
-        year_values = [(n, str(n)) for n in range(year, year+15)]
-
         messages = {}
         for c in reversed(self.__class__.__mro__):
             messages.update(getattr(c, 'default_error_messages', {}))
         messages.update(error_messages or {})
 
+        month_values = [(str(n), '%02d' % n) for n in range(1, 13)]
+        year = timezone.now().year
+        year_values = [(n, str(n)) for n in range(year, year+15)]
+
         fields = (
             SensitiveChoiceField(
-                choices=[self.month_empty_value] + month_values,
+                choices=[self.month_none_value] + month_values,
                 error_messages={'invalid': messages['invalid_month']},
                 client_side_only=client_side_only,
             ),
             SensitiveChoiceField(
-                choices=[self.year_empty_value] + year_values,
+                choices=[self.year_none_value] + year_values,
                 error_messages={'invalid': messages['invalid_year']},
                 client_side_only=client_side_only,
             )
@@ -163,16 +163,16 @@ class TwoFieldCardDateField(forms.MultiValueField):
 
 
 class CardSecurityCodeField(forms.CharField):
-    widget = SensitiveDataInput
+    widget = SensitiveInput
 
     default_error_messages = {
         'invalid': _('Invalid card security code'),
     }
 
     def __init__(self, *args, **kwargs):
-        kwargs.pop('max_length')
-        kwargs.pop('min_length')
-        kwargs.pop('strip')
+        kwargs.pop('max_length', None)
+        kwargs.pop('min_length', None)
+        kwargs.pop('strip', None)
         super(CardSecurityCodeField, self).__init__(
             max_length=4,
             min_length=3,
