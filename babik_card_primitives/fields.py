@@ -6,7 +6,7 @@ from django.utils.encoding import force_text
 
 from babik_card_primitives.exceptions import InvalidCardNumber
 from babik_card_primitives.utils import clean_card_number
-from babik_card_primitives.validators import CardNumberValidator
+from babik_card_primitives.validators import CardNumberLuhnTestValidator
 
 
 CARD_NUMBER_MIN_LENGTH = 10
@@ -23,7 +23,7 @@ class CardNumberField(Field):
 
         min_validator = MinLengthValidator(CARD_NUMBER_MIN_LENGTH)
         max_validator = MaxLengthValidator(CARD_NUMBER_MAX_LENGTH)
-        card_number_validator = CardNumberValidator(
+        card_number_validator = CardNumberLuhnTestValidator(
             self.error_messages['invalid'],
             code='invalid'
         )

@@ -25,7 +25,7 @@ def get_card_issuer(number):
     raise IssuerNotRecognised()
 
 
-def check_card_number(number):
+def card_number_luhn_test(number):
     """
     Use Luhn's algorithm to varify a credit card number
     """

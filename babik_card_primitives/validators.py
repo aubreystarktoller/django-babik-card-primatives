@@ -1,9 +1,9 @@
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
-from babik_card_primitives.utils import check_card_number
+from babik_card_primitives.utils import card_number_luhn_test
 
 
-class CardNumberValidator(object):
+class CardNumberLuhnTestValidator(object):
     """
     Uses Luhn's algorithm to validate the passed value
     """
@@ -18,7 +18,7 @@ class CardNumberValidator(object):
 
     def __call__(self, value):
         try:
-            if not check_card_number(value):
+            if not card_number_luhn(value):
                 raise ValidationError(self.message, code=self.code)
         except ValueError:
             raise ValidationError(self.message, code=self.code)
