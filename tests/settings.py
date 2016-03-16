@@ -18,7 +18,7 @@ TEMPLATES = [{
 ROOT_URLCONF = 'tests.urls'
 
 INSTALLED_APPS = [
-    'babik_card_primatives',
+    'babik_card_primitives',
 ]
 
 MIDDLEWARE_CLASSES = []

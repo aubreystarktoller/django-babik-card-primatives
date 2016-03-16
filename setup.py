@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name="django-babik-card-primatives",
+    name="django-babik-card-primitives",
     version="0.1.0",
     description="Basic functionallity for handling credit card information",
     author="Aubrey Stark-Toller",
@@ -23,7 +23,7 @@ setup(
         "Programming Language :: Python :: Implementation :: CPython",
     ],
     keywords="project django",
-    packages=["babik_card_primatives"],
+    packages=["babik_card_primitives"],
     install_requires = ["django>=1.8,<1.10"],
     tests_require = ["pytest", "pytest-django", "pytest-cov",],
     setup_requires = ["pytest-runner"]

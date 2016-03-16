@@ -1,5 +1,5 @@
 import re
-from babik_card_primatives.exceptions import (
+from babik_card_primitives.exceptions import (
     InvalidCardNumber,
     IssuerNotRecognised
 )

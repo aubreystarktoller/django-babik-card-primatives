@@ -4,9 +4,9 @@ from django.forms.fields import Field
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_text
 
-from babik_card_primatives.exceptions import InvalidCardNumber
-from babik_card_primatives.utils import clean_card_number
-from babik_card_primatives.validators import CardNumberValidator
+from babik_card_primitives.exceptions import InvalidCardNumber
+from babik_card_primitives.utils import clean_card_number
+from babik_card_primitives.validators import CardNumberValidator
 
 
 CARD_NUMBER_MIN_LENGTH = 10

@@ -1,9 +1,9 @@
 from django.test import TestCase
-from babik_card_primatives.exceptions import (
+from babik_card_primitives.exceptions import (
     IssuerNotRecognised,
     InvalidCardNumber
 )
-from babik_card_primatives.utils import (
+from babik_card_primitives.utils import (
     get_card_issuer, 
     check_card_number,
     clean_card_number

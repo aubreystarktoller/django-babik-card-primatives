@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from babik_card_primatives.validators import CardNumberValidator
+from babik_card_primitives.validators import CardNumberValidator
 
 
 class CardNumberValidatorTestCase(TestCase):

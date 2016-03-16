@@ -1,4 +1,4 @@
-graft babik_card_primatives
+graft babik_card_primitives
 include LICENSE
 include MANIFEST.in
 include README.rst

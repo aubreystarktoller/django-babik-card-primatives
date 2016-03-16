@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
-from babik_card_primatives.utils import check_card_number
+from babik_card_primitives.utils import check_card_number
 
 
 class CardNumberValidator(object):

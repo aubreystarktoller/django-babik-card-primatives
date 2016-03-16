@@ -1,5 +1,5 @@
 from django.test import TestCase, RequestFactory
-from babik_card_primatives.fields import CARD_NUMBER_MAX_LENGTH
+from babik_card_primitives.fields import CARD_NUMBER_MAX_LENGTH
 from tests.forms import CardNumberForm
 
 class CardNumberFieldTestCase(TestCase):

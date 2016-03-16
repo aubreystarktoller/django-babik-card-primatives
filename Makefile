@@ -35,19 +35,19 @@ clean-test:
 	rm -rf htmlcov/
 
 coverage:
-	coverage run --branch --source babik_card_primatives setup.py test
+	coverage run --branch --source babik_card_primitives setup.py test
 	coverage report -m
 	coverage html
 
 test:
-	python setup.py test --addopts="--cov=babik_card_primatives"
+	python setup.py test --addopts="--cov=babik_card_primitives"
 
 install: clean
 	python setup.py install
 
 compress-js:
-	mkdir -p babik_card_primatives/static/babik_card_primatives/js
-	uglifyjs --compress --mangle -- js_src/utils.js js_src/clean.js js_src/tests.js js_src/builders.js > babik_card_primatives/static/babik_card_primatives/js/card_validation.min.js
+	mkdir -p babik_card_primitives/static/babik_card_primitives/js
+	uglifyjs --compress --mangle -- js_src/utils.js js_src/clean.js js_src/tests.js js_src/builders.js > babik_card_primitives/static/babik_card_primitives/js/card_validation.min.js
 
 remove-compressed-js:
-	rm babik_card_primatives/static/babik_card_primatives/js/card_validation.min.js
+	rm babik_card_primitives/static/babik_card_primitives/js/card_validation.min.js
