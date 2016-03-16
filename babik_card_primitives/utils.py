@@ -6,17 +6,22 @@ from babik_card_primitives.exceptions import (
 
 
 CARD_ISSUERS = [
+    {
+        'regex': re.compile(r'^4[0-9]{12,18}$'),
+        'slug': 'visa',
+        'name': 'Visa',
+    },
 ]
 
 
 def get_card_issuer(number):
     """
-    Use a card's ... to determine it's issuer
+    Use a card's number to determine it's issuer
     """
     number = str(number)
-    for regexp, issuer_slug, issuer_name in CARD_ISSUERS:
-        if re.match(regexp, number):
-            return issuer_slug, issuer_name
+    for issuer_data in CARD_ISSUERS:
+        if issuer_data['regex'].match(number):
+            return issuer_data['slug'], issuer_data['name']
     raise IssuerNotRecognised()
 
 

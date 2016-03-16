@@ -17,6 +17,15 @@ class GetIssuerTestCase(TestCase):
         slug, name = get_card_issuer(number)
         self.assertEqual(slug, expected_slug)
 
+    def test_unknown(self):
+        with self.assertRaises(IssuerNotRecognised):
+            get_card_issuer('5')
+
+    def test_visa16(self):
+        self._test_card("4716492322141017", "visa")
+
+    def test_visa13(self):
+        self._test_card("4556119474911", "visa")
 
 class CheckCardNumberTestCase(TestCase):
     def test_valid_numbers(self):

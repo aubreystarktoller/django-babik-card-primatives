@@ -18,3 +18,9 @@ QUnit.test("cardNumberLengthTest", function(assert) {
     assert.strictEqual(cardNumberLengthTest('xxxxx'), false);
     assert.strictEqual(cardNumberLengthTest('xxxxxxxxxxxxxxxxxxx'), true);
 });
+
+
+QUnit.test("cardNumberIssuerWhitelistTest", function(assert) {
+    assert.strictEqual(cardNumberIssuerWhitelistTest("4716492322141017", ["visa"]), true);
+    assert.strictEqual(cardNumberIssuerWhitelistTest("0000000000000000", ["visa"]), false);
+});

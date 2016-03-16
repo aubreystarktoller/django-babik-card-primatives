@@ -8,6 +8,7 @@
  */
 var getCardIssuer = (function() {
     var cardIssuers = [
+        [/^4[0-9]{12,19}$/, 'visa']
     ];
     var cardIssuerLen = cardIssuers.length;
 
@@ -17,9 +18,9 @@ var getCardIssuer = (function() {
 
         for(var i = 0;  i < cardIssuerLen; i++) {
             issuerData = cardIssuers[i];
-            result = issuerData[0].match(cardNumber);
+            result = cardNumber.match(issuerData[0]);
             if (result !== null) {
-                return [issuerData[1], issuerData[2]];
+                return issuerData[1];
             }
         }
         return null;
