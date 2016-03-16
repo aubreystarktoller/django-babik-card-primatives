@@ -8,7 +8,8 @@
  */
 var getCardIssuer = (function() {
     var cardIssuers = [
-        [/^4[0-9]{12,19}$/, 'visa']
+        [/^5[1-5][0-9]{14}$/, "mastercard"],
+        [/^4[0-9]{12,19}$/, "visa"]
     ];
     var cardIssuerLen = cardIssuers.length;
 
