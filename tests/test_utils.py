@@ -5,7 +5,7 @@ from babik_card_primitives.exceptions import (
 )
 from babik_card_primitives.utils import (
     get_card_issuer, 
-    check_card_number,
+    card_number_luhn_test,
     clean_card_number
 )
 
@@ -29,20 +29,20 @@ class GetIssuerTestCase(TestCase):
 
 class CheckCardNumberTestCase(TestCase):
     def test_valid_numbers(self):
-        self.assertTrue(check_card_number(1234567812345670))
-        self.assertTrue(check_card_number(49927398716))
+        self.assertTrue(card_number_luhn_test(1234567812345670))
+        self.assertTrue(card_number_luhn_test(49927398716))
 
     def test_valid_numbers_as_strings(self):
-        self.assertTrue(check_card_number("1234567812345670"))
-        self.assertTrue(check_card_number("49927398716"))
+        self.assertTrue(card_number_luhn_test("1234567812345670"))
+        self.assertTrue(card_number_luhn_test("49927398716"))
 
     def test_invalid_number(self):
-        self.assertFalse(check_card_number(1234567812345678))
-        self.assertFalse(check_card_number(49927398717))
+        self.assertFalse(card_number_luhn_test(1234567812345678))
+        self.assertFalse(card_number_luhn_test(49927398717))
 
     def test_invalid_number_as_strings(self):
-        self.assertFalse(check_card_number("1234567812345678"))
-        self.assertFalse(check_card_number("49927398717"))
+        self.assertFalse(card_number_luhn_test("1234567812345678"))
+        self.assertFalse(card_number_luhn_test("49927398717"))
 
 
 class CleanCardNumberTestCase(TestCase):
