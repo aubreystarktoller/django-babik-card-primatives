@@ -78,5 +78,5 @@ function cardNumberIssuerWhitelistTest(cardNumber, issuerWhiteList) {
             }
         }
     }
-    return False;
+    return false;
 }
