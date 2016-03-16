@@ -1,13 +1,7 @@
 QUnit.test("cardNumberLuhnTest", function(assert) {
-    assert.strictEqual(cardNumberLuhnTest(1234567812345670), true);
-    assert.strictEqual(cardNumberLuhnTest(49927398716), true);
-        
     assert.strictEqual(cardNumberLuhnTest("1234567812345670"), true);
     assert.strictEqual(cardNumberLuhnTest("49927398716"), true);
 
-    assert.strictEqual(cardNumberLuhnTest(1234567812345678), false);
-    assert.strictEqual(cardNumberLuhnTest(49927398717), false);
-        
     assert.strictEqual(cardNumberLuhnTest("1234567812345678"), false);
     assert.strictEqual(cardNumberLuhnTest("49927398717"), false);
 });

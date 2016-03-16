@@ -1,3 +1,9 @@
+QUnit.test("buildCardNumberIssuerWhitelistTest", function(assert) {
+    assert.strictEqual(buildCardNumberIssuerWhitelistTest(["visa"])("4716492322141017"), true);
+    assert.strictEqual(buildCardNumberIssuerWhitelistTest(["visa"])("0000000000000000"), false);
+});
+
+
 QUnit.test("buildCardNumberValidator", function(assert) {
     assert.strictEqual(buildCardNumberValidator()(''), null);
     assert.strictEqual(buildCardNumberValidator()('   '), null);
