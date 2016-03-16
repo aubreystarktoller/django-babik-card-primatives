@@ -1,9 +1,13 @@
 ============================
-Django Transaction
+Django Card Primatives
 ============================
 
+This module containts utilities, fields and validators for handling credit
+card data in the Django framework. It also includes JavaScript utilities
+for validating card data.
+
 .. image:: https://img.shields.io/badge/license-BSD-red.svg
-   :targer: https://raw.githubusercontent.com/aubreystarktoller/django-babik-card-primatives/master/LICENSE
+   :target: https://raw.githubusercontent.com/aubreystarktoller/django-babik-card-primatives/master/LICENSE
 
 INSTALLATION
 ============
