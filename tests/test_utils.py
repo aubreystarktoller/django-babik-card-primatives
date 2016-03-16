@@ -27,6 +27,9 @@ class GetIssuerTestCase(TestCase):
     def test_visa13(self):
         self._test_card("4556119474911", "visa")
 
+    def test_mastercard(self):
+        self._test_card("5184304972563939", "mastercard")
+
 class CheckCardNumberTestCase(TestCase):
     def test_valid_numbers(self):
         self.assertTrue(card_number_luhn_test(1234567812345670))
