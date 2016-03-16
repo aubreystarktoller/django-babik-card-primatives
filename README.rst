@@ -2,12 +2,12 @@
 Django Card Primatives
 ============================
 
+.. image:: https://img.shields.io/badge/license-BSD-red.svg
+   :target: https://raw.githubusercontent.com/aubreystarktoller/django-babik-card-primatives/master/LICENSE
+
 This module containts utilities, fields and validators for handling credit
 card data in the Django framework. It also includes JavaScript utilities
 for validating card data.
-
-.. image:: https://img.shields.io/badge/license-BSD-red.svg
-   :target: https://raw.githubusercontent.com/aubreystarktoller/django-babik-card-primatives/master/LICENSE
 
 INSTALLATION
 ============
