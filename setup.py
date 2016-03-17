@@ -1,4 +1,18 @@
+import sys
 from setuptools import setup
+from setuptools.command.test import test as TestCommand
+
+class PyTest(TestCommand):
+    user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
+
+    def initialize_options(self):
+        TestCommand.initialize_options(self)
+        self.pytest_args = []
+
+    def run_tests(self):
+        import pytest
+        errno = pytest.main(self.pytest_args)
+        sys.exit(errno)
 
 setup(
     name="django-babik-card-primitives",
@@ -25,6 +39,6 @@ setup(
     keywords="project django",
     packages=["babik_card_primitives"],
     install_requires = ["django>=1.8,<1.10"],
-    tests_require = ["pytest", "pytest-django", "pytest-cov",],
-    setup_requires = ["pytest-runner"]
+    tests_require = ["pytest", "pytest-django", "pytest-cov", 'testfixtures'],
+    cmdclass = {'test': PyTest}
 )
