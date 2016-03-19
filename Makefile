@@ -40,7 +40,7 @@ coverage:
 	coverage html
 
 test:
-	python setup.py test --addopts="--cov=babik_card_primitives"
+	python setup.py test --pytest-args="--cov=babik_card_primitives"
 
 install: clean
 	python setup.py install
