@@ -118,7 +118,7 @@ class TwoFieldCardDateWidget(Widget):
         if y == m == "0":
             return None
         elif y and m:
-            return (m, y)
+            return {'month': m, 'year': y}
         return data.get(name)
 
     def create_select(self, name, field, value, val, choices, none_value):
