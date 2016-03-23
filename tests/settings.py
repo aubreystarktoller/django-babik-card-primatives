@@ -9,6 +9,7 @@ SECRET_KEY = "django_tests_secret_key"
 
 TEMPLATES = [{
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'APP_DIRS': True,
     'OPTIONS': {
         'context_processors': [
         ],
