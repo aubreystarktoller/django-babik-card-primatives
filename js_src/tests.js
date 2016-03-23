@@ -24,7 +24,7 @@ var cardNumberLuhnTest = (function() {
             }
             odd = !odd;
         }
-        return (counter % 10 == 0);
+        return (counter % 10 === 0);
     }
 })();
 
@@ -41,7 +41,7 @@ var cardNumberLuhnTest = (function() {
 var cardNumberLengthTest = (function() {
     var minLength = 10;
     var maxLength = 25;
-  
+
     return function(cardNumber) {
         var temp = String(cardNumber);
         var len = temp.length;
@@ -73,7 +73,7 @@ function cardNumberIssuerWhitelistTest(cardNumber, issuerWhiteList) {
     if (issuer !== null) {
         var len = issuerWhiteList.length;
         for (var i = 0; i < len; i++) {
-            if(issuerWhiteList[i] == issuer) {
+            if(issuerWhiteList[i] === issuer) {
                 return true;
             }
         }

@@ -17,7 +17,7 @@ var getCardIssuer = (function() {
         var result;
         var issuerData;
 
-        for(var i = 0;  i < cardIssuerLen; i++) {
+        for(var i = 0; i < cardIssuerLen; i++) {
             issuerData = cardIssuers[i];
             result = cardNumber.match(issuerData[0]);
             if (result !== null) {
@@ -25,5 +25,5 @@ var getCardIssuer = (function() {
             }
         }
         return null;
-    }
+    };
 })();

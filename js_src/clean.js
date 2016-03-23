@@ -13,14 +13,14 @@ var cleanCardNumber = (function() {
 
     return function(cardNumber) {
         var temp = String(cardNumber);
-        temp = temp.replace(whitespaceRegex, '');
+        temp = temp.replace(whitespaceRegex, "");
         temp = temp.replace(dashRegex, "$1$2");
-        result = temp.match(finalCardNumberRegex);
+        var result = temp.match(finalCardNumberRegex);
         if (result) {
             return temp;
         }
         else {
             return null;
         }
-    }
+    };
 })();
