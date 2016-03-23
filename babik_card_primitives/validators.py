@@ -44,7 +44,7 @@ class CardNumberIssuerWhitelistValidator(object):
     def __call__(self, value):
         try:
             issuer_slug, issuer_name = get_card_issuer(value)
-        except IssuerNotRecognised as e:
+        except IssuerNotRecognised:
             raise ValidationError(self.message, code=self.code)
         else:
             if issuer_slug not in self.whitelist:
