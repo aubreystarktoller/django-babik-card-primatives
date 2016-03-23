@@ -9,7 +9,14 @@ This module containts utilities, fields and validators for handling bank
 card information in the Django framework. It also includes JavaScript
 utilities for validating card data.
 
-* `Installaion`_
+Contents
+========
+
+* `Installaion`
+* `Testing`
+* `Contributing`
+* `Authors`
+* `License`
 
 INSTALLATION
 ============
