@@ -2,8 +2,7 @@ import datetime
 
 from django.template.loader import render_to_string
 from django.forms.utils import flatatt
-from django.forms.widgets import Input, Widget, Select, MultiWidget
-from django.utils.dates import MONTHS
+from django.forms.widgets import Input, Widget, Select
 from django.utils.encoding import force_text
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
@@ -42,7 +41,7 @@ class SensitiveSelect(Select):
         return mark_safe('\n'.join(output))
 
 
-class TwoFieldCardDateWidget(Widget):
+class TwoFieldDateWidget(Widget):
     template = "babik_card_primitives/two_field_card_date_widget.html"
     none_value = (0, '---')
     month_field = '%s_month'
@@ -118,7 +117,7 @@ class TwoFieldCardDateWidget(Widget):
         if y == m == "0":
             return None
         elif y and m:
-            return {'month': m, 'year': y}
+            return {"month": m, "year": y}
         return data.get(name)
 
     def create_select(self, name, field, value, val, choices, none_value):
