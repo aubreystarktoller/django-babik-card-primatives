@@ -1,26 +1,31 @@
-import calendar
-import datetime
 import logging
 
+from django.conf import settings
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.core.exceptions import ValidationError
 from django import forms
+from django.utils import six
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_text
-from django.utils import timezone
 
 from babik_card_primitives.exceptions import InvalidCardNumber
+from babik_card_primitives.two_field_date import TwoFieldDate
 from babik_card_primitives.utils import clean_card_number
 from babik_card_primitives.validators import (
     CardNumberLuhnTestValidator,
     CardNumberIssuerWhitelistValidator,
     CardSecurityCodeValidator
 )
-from babik_card_primitives.widgets import SensitiveInput, SensitiveSelect
+from babik_card_primitives.widgets import (
+    SensitiveInput,
+    SensitiveSelect,
+    TwoFieldDateWidget
+)
 
 
 CARD_NUMBER_MIN_LENGTH = 10
 CARD_NUMBER_MAX_LENGTH = 25
+DEFAULT_TWO_FIELD_INPUT_FORMATS = ["%m%Y"]
 
 
 class CardNumberField(forms.Field):
@@ -28,11 +33,14 @@ class CardNumberField(forms.Field):
 
     default_error_messages = {
         'invalid': _('Invalid card number'),
+        'invalid_issuer': _('Invalid issuer'),
     }
 
     def __init__(self, use_luhn_test=True, client_side_only=False,
                  issuer_whitelist=None, *args, **kwargs):
         self.client_side_only = client_side_only
+        if client_side_only:
+            kwargs['required'] = False
 
         super(CardNumberField, self).__init__(*args, **kwargs)
 
@@ -55,16 +63,24 @@ class CardNumberField(forms.Field):
             )
 
     def to_python(self, value):
-        if value in self.empty_values:
-            return ''
-        value = force_text(value)
-        try:
-            return clean_card_number(value)
-        except InvalidCardNumber:
-            raise ValidationError(
-                self.error_messages['invalid'],
-                code='invalid'
+        if self.client_side_only and value not in self.empty_values:
+            logger = logging.getLogger('babik_card_primatives')
+            logger.critical(
+                "Data that should not have reached the server has"
+                " reached the server."
             )
+            return None
+        elif value in self.empty_values:
+            return ''
+        else:
+            value = force_text(value)
+            try:
+                return clean_card_number(value)
+            except InvalidCardNumber:
+                raise ValidationError(
+                    self.error_messages['invalid'],
+                    code='invalid'
+                )
 
     def widget_attrs(self, widget):
         attrs = super(CardNumberField, self).widget_attrs(widget)
@@ -80,107 +96,159 @@ class SensitiveChoiceField(forms.ChoiceField):
 
     def __init__(self, client_side_only=False, *args, **kwargs):
         self.client_side_only = client_side_only
+        if client_side_only:
+            kwargs['required'] = False
         super(SensitiveChoiceField, self).__init__(*args, **kwargs)
 
     def to_python(self, value):
-        if self.client_side_only:
-            if value:
-                logger = logging.getLogger('babik_card_primatives')
-                logger.emergency(
-                    "Data that should not have reached the server has"
-                    " reached the server."
-                )
-            else:
-                return None
+        if self.client_side_only and value not in self.empty_values:
+            logger = logging.getLogger('babik_card_primatives')
+            logger.critical(
+                "Data that should not have reached the server has"
+                " reached the server."
+            )
+            return None
         else:
             return super(SensitiveChoiceField, self).to_python(value)
 
-
-class TwoFieldCardDateField(forms.MultiValueField):
-    none_value = (0, '---')
-    default_error_messages = {
-        'invalid_month': _('Invalid month'),
-        'invalid_year': _('Invalid year'),
-    }
-
-    def __init__(self, empty_label=None, required=True,
-                 client_side_only=False, error_messages=None, *args,
-                 **kwargs):
-        self.client_side_only = client_side_only
-        self.required = required
-
-        if isinstance(empty_label, (list, tuple)):
-            if not len(empty_label) == 2:
-                raise ValueError(
-                    'empty_label list/tuple must have 2 elements.'
-                )
-
-            self.year_none_value = (0, empty_label[0])
-            self.month_none_value = (0, empty_label[1])
-        else:
-            if empty_label is not None:
-                self.none_value = (0, empty_label)
-
-            self.year_none_value = self.none_value
-            self.month_none_value = self.none_value
-
-        messages = {}
-        for c in reversed(self.__class__.__mro__):
-            messages.update(getattr(c, 'default_error_messages', {}))
-        messages.update(error_messages or {})
-
-        month_values = [(str(n), '%02d' % n) for n in range(1, 13)]
-        year = timezone.now().year
-        year_values = [(n, str(n)) for n in range(year, year+15)]
-
-        fields = (
-            SensitiveChoiceField(
-                choices=[self.month_none_value] + month_values,
-                error_messages={'invalid': messages['invalid_month']},
-                client_side_only=client_side_only,
-            ),
-            SensitiveChoiceField(
-                choices=[self.year_none_value] + year_values,
-                error_messages={'invalid': messages['invalid_year']},
-                client_side_only=client_side_only,
-            )
-        )
-        return super(TwoFieldCardDateField, self).__init__(
-            fields,
-            require_all_fields=required,
-            *args,
-            **kwargs
-        )
-
-    def compress(self, data_list):
-        if data_list:
-            month = int(data_list[0])
-            year = int(data_list[1])
-            day = calendar.monthrange(year, month)[1]
-            return datetime.date(year, month, day)
-        else:
-            return None
+    def widget_attrs(self, widget):
+        attrs = super(SensitiveChoiceField, self).widget_attrs(widget)
+        if self.client_side_only:
+            attrs['client_side_only'] = True
+        return attrs
 
 
 class CardSecurityCodeField(forms.CharField):
     widget = SensitiveInput
 
     default_error_messages = {
-        'invalid': _('Invalid card security code'),
+        'invalid_csc': _('Invalid card security code'),
     }
 
-    def __init__(self, *args, **kwargs):
-        kwargs.pop('max_length', None)
-        kwargs.pop('min_length', None)
-        kwargs.pop('strip', None)
-        super(CardSecurityCodeField, self).__init__(
-            max_length=4,
-            min_length=3,
-            strip=True
-        )
+    def __init__(self, client_side_only=False, *args, **kwargs):
+        kwargs['max_length'] = 4
+        kwargs['min_length'] = 3
+        self.client_side_only = client_side_only
+        if client_side_only:
+            kwargs['required'] = False
+        super(CardSecurityCodeField, self).__init__(*args, **kwargs)
         self.validators.append(
             CardSecurityCodeValidator(
+                self.error_messages['invalid_csc'],
+                code='invalid_csc'
+            )
+        )
+
+    def to_python(self, value):
+        if self.client_side_only and value not in self.empty_values:
+            logger = logging.getLogger('babik_card_primatives')
+            logger.critical(
+                "Data that should not have reached the server has"
+                " reached the server."
+            )
+            return None
+        elif value in self.empty_values:
+            return ''
+        else:
+            value = force_text(value)
+            return value.strip()
+
+    def widget_attrs(self, widget):
+        attrs = super(CardSecurityCodeField, self).widget_attrs(widget)
+        if self.client_side_only:
+            attrs['client_side_only'] = True
+        return attrs
+
+
+class TwoFieldDateField(forms.Field):
+    widget = TwoFieldDateWidget
+
+    default_error_messages = {
+        'invalid': _('Invalid date'),
+        'invalid_month': _('Invalid date (month is invalid)'),
+        'invalid_year': _('Invalid date (year is invalid)'),
+    }
+
+    def __init__(self, input_formats=None, client_side_only=False, *args,
+                 **kwargs):
+        self.client_side_only = client_side_only
+
+        self._input_formats = input_formats
+
+        if client_side_only:
+            kwargs['required'] = False
+        super(TwoFieldDateField, self).__init__(*args, **kwargs)
+
+    @property
+    def input_formats(self):
+        if self._input_formats:
+            return self._input_formats
+        else:
+            return getattr(
+                settings,
+                'TWO_FIELD_INPUT_FORMATS',
+                DEFAULT_TWO_FIELD_INPUT_FORMATS
+            )
+
+    @input_formats.setter
+    def input_formats(self, value):
+        self._input_formats = value
+
+    def _dict_to_value(self, dict_):
+        try:
+            month = int(dict_['month'])
+        except ValueError:
+            raise ValidationError(
+                self.error_messages['invalid_month'],
+                code='invalid_month'
+            )
+        if month < 1 or month > 12:
+            raise ValidationError(
+                self.error_messages['invalid_month'],
+                code='invalid_month'
+            )
+
+        try:
+            year = int(dict_['year'])
+        except ValueError:
+            raise ValidationError(
+                self.error_messages['invalid_year'],
+                code='invalid_year'
+            )
+
+        return TwoFieldDate(year, month)
+
+    def to_python(self, value):
+        if self.client_side_only and value not in self.empty_values:
+            logger = logging.getLogger('babik_card_primatives')
+            logger.critical(
+                "Data that should not have reached the server has"
+                " reached the server."
+            )
+            return None
+        elif value in self.empty_values:
+            return None
+        elif isinstance(value, TwoFieldDate):
+            return value
+        elif isinstance(value, dict):
+            return self._dict_to_value(value)
+        else:
+            unicode_value = force_text(value, strings_only=True)
+            if isinstance(unicode_value, six.text_type):
+                value = unicode_value.strip()
+                if isinstance(value, six.text_type):
+                    for format in self.input_formats:
+                        try:
+                            return TwoFieldDate.parse(value, format)
+                        except (ValueError, TypeError):
+                            continue
+            raise ValidationError(
                 self.error_messages['invalid'],
                 code='invalid'
             )
-        )
+
+    def widget_attrs(self, widget):
+        attrs = super(TwoFieldDateField, self).widget_attrs(widget)
+        if self.client_side_only:
+            attrs['client_side_only'] = True
+        return attrs
