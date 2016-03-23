@@ -40,16 +40,18 @@ def card_number_luhn_test(number):
     return (odd_sum + even_sum) % 10 == 0
 
 
-whitespace_re = re.compile('\s+')
-card_number_re = re.compile('^[0-9]+$')
+whitespace_re = re.compile("\s+")
+dash_re = re.compile("([0-9])-+([0-9])")
+card_number_re = re.compile("^[0-9]+$")
 
 
 def clean_card_number(raw_number):
     """
-    Removes any whitespace from a card number, throws an InvalidCardNumber if
-    there are not numeric characters remaining
+    Removes any whitespace and dashes from a card number, throws an
+    InvalidCardNumber if there are not numeric characters remaining
     """
-    number = whitespace_re.sub('', raw_number)
+    whitespaced_stripped_number = whitespace_re.sub("", raw_number)
+    number = dash_re.sub(r"\1\2", whitespaced_stripped_number)
     if card_number_re.match(number):
         return number
     else:

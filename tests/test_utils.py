@@ -56,3 +56,15 @@ class CleanCardNumberTestCase(TestCase):
     def test_strip_whitespace(self):
         clean_number = clean_card_number("4 992  7398	716")
         self.assertEqual(clean_number, "49927398716")
+
+    def test_strip_dashes(self):
+        clean_number = clean_card_number("4-992-7398--716")
+        self.assertEqual(clean_number, "49927398716")
+
+    def test_strip_dashes_and_whitespace(self):
+        clean_number = clean_card_number("4-992 - 7398 - - 716")
+        self.assertEqual(clean_number, "49927398716")
+
+    def test_invalid_dashed_card_number(self):
+        with self.assertRaises(InvalidCardNumber):
+            clean_card_number("-499-273-98716")
