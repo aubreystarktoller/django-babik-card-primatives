@@ -9,6 +9,9 @@ This module containts utilities, fields and validators for handling bank
 card information in the Django framework. It also includes JavaScript
 utilities for validating card data.
 
+* .. install_ Installaion 
+
+.. _install:
 INSTALLATION
 ============
 
@@ -36,7 +39,11 @@ To run the tests first clone the git repo:
 
     git clone https://github.com/aubreystarktoller/django-babik-card-primitives
   
-To run the tests you'll require ``make``. It is recommended that use tox to run
+To run the tests you'll require ``make``. 
+
+TESTING PYTHON CODE
+-------------------
+It is recommended that use tox to run
 the tests:
     
     tox
@@ -45,6 +52,17 @@ To run the tests in the current environment:
 
     make test
 
+CONTRIBUTING
+============
+
+Contributions are welcome. Please ensure the any submitted code is well
+tested.
+
+If you think you have found a security venerability in the code please report
+it **privately** by e-mailing Aubrey Stark-Toller at aubrey@deepearth.uk.
+
+Please **do not** raise it on the issue tracker, or publicly at all, until I
+have had a chance to look into it.
 
 AUTHORS
 =======
