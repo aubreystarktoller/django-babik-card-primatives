@@ -12,11 +12,11 @@ utilities for validating card data.
 Contents
 ========
 
-* `Installaion`
-* `Testing`
-* `Contributing`
-* `Authors`
-* `License`
+* `Installation`_
+* `Testing`_
+* `Contributing`_
+* `Authors`_
+* `License`_
 
 INSTALLATION
 ============
