@@ -5,9 +5,9 @@ Django Card Primitives
 .. image:: https://img.shields.io/badge/license-BSD-red.svg
    :target: https://raw.githubusercontent.com/aubreystarktoller/django-babik-card-primitives/master/LICENSE
 
-This module containts utilities, fields and validators for handling bank
-card information in the Django framework. It also includes JavaScript
-utilities for validating card data.
+This module contains utilities, validators, widgets and for fields for
+handling bank card information in the Django framework. It also includes 
+JavaScript utilities for validating card data.
 
 Contents
 ========
@@ -57,6 +57,20 @@ the tests:
 To run the tests in the current environment:
 
     make test
+
+TESTING JAVASCRIPT CODE
+-----------------------
+To run test the Javascript code from the command line you'll need npm.
+
+To install the test dependencies run:
+  
+    npm install
+
+in the root of the git repository and then run:
+
+    npm test
+
+Alternatively open `js_tests/tests.html` in your browser.
 
 CONTRIBUTING
 ============

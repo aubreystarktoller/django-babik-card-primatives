@@ -30,31 +30,32 @@ var cardNumberLuhnTest = (function() {
 
 
 /**
- * @function cardNumberLengthTest
+ * Compare the passed value's length to maximum allowed length.
  *
- * Tests the passed card number and ensures it is a vaugely sane
- * length. We're not to strict about the actual length, this is 
- * just to ensure that the card number is sane.
- *
- * @param cardNumber The card number to test
+ * @param max The maximum length allowed
+ * @param valuer The cleaned value to test
  */
-var cardNumberLengthTest = (function() {
-    var minLength = 10;
-    var maxLength = 25;
+function maxLengthTest(max, value) {
+      return value.length <= max;
+}
 
-    return function(cardNumber) {
-        var temp = String(cardNumber);
-        var len = temp.length;
-        return minLength < len && len < maxLength;
-    }
 
-})();
+/**
+ * Compare the passed value's length to minimum allowed length.
+ *
+ * @param min The minimum length allowed
+ * @param valuer The cleaned value to test
+ */
+function minLengthTest(min, value) {
+      return value.length >= min;
+}
 
 
 /**
  * Tests the passed card number and ensures it's issuer is known.
  *
- * @param cardNumber The card number to test
+ * @param cardNumber The cleaned card number (a card number returned by
+ * cleanCardNumber) to test
  */
 function cardNumberKnownIssuerTest(cardNumber) {
     return getCardIssuer(cardNumber) !== null;
@@ -65,10 +66,11 @@ function cardNumberKnownIssuerTest(cardNumber) {
  * Tests the passed card number and ensures it's issuer is in a passed
  * whitelist
  *
- * @param cardNumber The card number to test
+ * @param cardNumber The cleaned card number (a card number returned by
+ * cleanCardNumber) to test
  * @param issuerWhiteList The issuers that are allowed
  */
-function cardNumberIssuerWhitelistTest(cardNumber, issuerWhiteList) {
+function cardNumberIssuerWhitelistTest(issuerWhiteList, cardNumber) {
     var issuer = getCardIssuer(cardNumber);
     if (issuer !== null) {
         var len = issuerWhiteList.length;

@@ -27,3 +27,21 @@ var getCardIssuer = (function() {
         return null;
     };
 })();
+
+
+/**
+ * Partially apply some of a functions arguments
+ *
+ * @param func The function whose arguments are to be set
+ * @param {...*} The arguments to apply to the function
+ */
+function partialApp(f) {
+    var parameters = Array.prototype.slice.call(arguments, 1);
+
+    return function() {
+        return f.apply(
+            this,
+            parameters.concat(Array.prototype.slice.call(arguments, 0))
+        );
+    };
+}

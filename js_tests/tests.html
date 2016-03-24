@@ -3,13 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Django Babik Card Primitives Tests</title>
+    <title>Django Babik Card Primitives JS Tests</title>
     <link rel="stylesheet" href="./qunit/qunit.css">
   </head>
   <body>
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
+
     <script src="./qunit/qunit.js"></script>
+    <script src="./utils/tracker.js"></script>
+
+    <script src="../js_src/validator.js"></script>
+    <script src="./tests/test_validator.js"></script>
 
     <script src="../js_src/utils.js"></script>
     <script src="./tests/test_utils.js"></script>
@@ -19,8 +24,5 @@
 
     <script src="../js_src/tests.js"></script>
     <script src="./tests/test_checks.js"></script>
-
-    <script src="../js_src/builders.js"></script>
-    <script src="./tests/test_builders.js"></script>
   </body>
 </html>

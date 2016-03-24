@@ -5,3 +5,18 @@ QUnit.test("getCardIssuer", function(assert) {
 
     assert.strictEqual(getCardIssuer("0000000000000"), null);
 });
+
+
+QUnit.test("partialApp", function(assert) {
+    var buildTestFunc = function(tracker) {
+        return function(arg1, arg2) {
+            tracker.calledWith(arg1, arg2);   
+        };
+    };
+    var tracker = new Tracker();
+    var testFunc = buildTestFunc(tracker);
+
+    var f= partialApp(testFunc, "test arg 1");
+    f("test arg 2");
+    assert.deepEqual(tracker.calls[0], ["test arg 1", "test arg 2"]);
+});

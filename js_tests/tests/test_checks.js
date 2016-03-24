@@ -7,14 +7,19 @@ QUnit.test("cardNumberLuhnTest", function(assert) {
 });
 
 
-QUnit.test("cardNumberLengthTest", function(assert) {
-    assert.strictEqual(cardNumberLengthTest('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'), false);
-    assert.strictEqual(cardNumberLengthTest('xxxxx'), false);
-    assert.strictEqual(cardNumberLengthTest('xxxxxxxxxxxxxxxxxxx'), true);
+QUnit.test("maxLengthTest", function(assert) {
+    assert.strictEqual(maxLengthTest(6, 'xxxxxx'), true);
+    assert.strictEqual(maxLengthTest(2, 'xxxxx'), false);
+});
+
+
+QUnit.test("minLengthTest", function(assert) {
+    assert.strictEqual(minLengthTest(4, 'xxxxxx'), true);
+    assert.strictEqual(minLengthTest(10, 'xxxxx'), false);
 });
 
 
 QUnit.test("cardNumberIssuerWhitelistTest", function(assert) {
-    assert.strictEqual(cardNumberIssuerWhitelistTest("4716492322141017", ["visa"]), true);
-    assert.strictEqual(cardNumberIssuerWhitelistTest("0000000000000000", ["visa"]), false);
+    assert.strictEqual(cardNumberIssuerWhitelistTest(["visa"], "4716492322141017"), true);
+    assert.strictEqual(cardNumberIssuerWhitelistTest(["visa"], "0000000000000000"), false);
 });
