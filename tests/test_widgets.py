@@ -179,16 +179,16 @@ class TwoFieldDateWidgetTestCase(TestCase):
         self.assertHTMLEqual(
             output,
             """
-            <div>
+            <span class="babik-card-primitives-month-field">
             <select id="id_test_month" name="test_month">
             {months}
             </select>
-            </div>
-            <div>
+            </span>
+            <span class="babik-card-primitives-year-field">
             <select id="id_test_year" name="test_year">
             {years}
             </select>
-            </div>
+            </span>
             """.format(months=months, years=years)
         )
 
@@ -204,16 +204,16 @@ class TwoFieldDateWidgetTestCase(TestCase):
         self.assertHTMLEqual(
             output,
             """
-            <div>
+            <span class="babik-card-primitives-month-field">
             <select id="id_test_month" name="test_month">
             {months}
             </select>
-            </div>
-            <div>
+            </span>
+            <span class="babik-card-primitives-year-field">
             <select id="id_test_year" name="test_year">
             {years}
             </select>
-            </div>
+            </span>
             """.format(months=months, years=years)
         )
 
@@ -231,16 +231,16 @@ class TwoFieldDateWidgetTestCase(TestCase):
         self.assertHTMLEqual(
             output,
             """
-            <div>
+            <span class="babik-card-primitives-month-field">
             <select id="id_test_month" name="test_month">
             {months}
             </select>
-            </div>
-            <div>
+            </span>
+            <span class="babik-card-primitives-year-field">
             <select id="id_test_year" name="test_year">
             {years}
             </select>
-            </div>
+            </span>
             """.format(months=months, years=years)
         )
 
@@ -270,16 +270,16 @@ class TwoFieldDateWidgetTestCase(TestCase):
         self.assertHTMLEqual(
             output,
             """
-            <div>
+            <span class="babik-card-primitives-month-field">
             <select id="id_test_month" name="test_month">
             {months}
             </select>
-            </div>
-            <div>
+            </span>
+            <span class="babik-card-primitives-year-field">
             <select id="id_test_year" name="test_year">
             {years}
             </select>
-            </div>
+            </span>
             """.format(months=months, years=years)
         )
 
@@ -294,16 +294,16 @@ class TwoFieldDateWidgetTestCase(TestCase):
         self.assertHTMLEqual(
             output,
             """
-            <div>
+            <span class="babik-card-primitives-month-field">
             <select id="id_test_month" name="test_month">
             {months}
             </select>
-            </div>
-            <div>
+            </span>
+            <span class="babik-card-primitives-year-field">
             <select id="id_test_year" name="test_year">
             {years}
             </select>
-            </div>
+            </span>
             """.format(months=months, years=years)
         )
 
@@ -319,16 +319,16 @@ class TwoFieldDateWidgetTestCase(TestCase):
         self.assertHTMLEqual(
             output,
             """
-            <div>
+            <span class="babik-card-primitives-month-field">
             <select id="id_test_month" name="test_month">
             {months}
             </select>
-            </div>
-            <div>
+            </span>
+            <span class="babik-card-primitives-year-field">
             <select id="id_test_year" name="test_year">
             {years}
             </select>
-            </div>
+            </span>
             """.format(months=months, years=years)
         )
 
@@ -345,16 +345,16 @@ class TwoFieldDateWidgetTestCase(TestCase):
         self.assertHTMLEqual(
             output,
             """
-            <div>
+            <span class="babik-card-primitives-month-field">
             <select id="id_test_month" name="test_month">
             {months}
             </select>
-            </div>
-            <div>
+            </span>
+            <span class="babik-card-primitives-year-field">
             <select id="id_test_year" name="test_year">
             {years}
             </select>
-            </div>
+            </span>
             """.format(months=months, years=years)
         )
 
@@ -371,16 +371,16 @@ class TwoFieldDateWidgetTestCase(TestCase):
         self.assertHTMLEqual(
             output,
             """
-            <div>
+            <span class="babik-card-primitives-month-field">
             <select id="myid_month" name="test_month">
             {months}
             </select>
-            </div>
-            <div>
+            </span>
+            <span class="babik-card-primitives-year-field">
             <select id="myid_year" name="test_year">
             {years}
             </select>
-            </div>
+            </span>
             """.format(months=months, years=years)
         )
 
@@ -419,15 +419,15 @@ class TwoFieldDateWidgetTestCase(TestCase):
         self.assertHTMLEqual(
             output,
             """
-            <div>
+            <span class="babik-card-primitives-month-field">
             <select id="id_test_month">
             {months}
             </select>
-            </div>
-            <div>
+            </span>
+            <span class="babik-card-primitives-year-field">
             <select id="id_test_year">
             {years}
             </select>
-            </div>
+            </span>
             """.format(months=months, years=years)
         )
