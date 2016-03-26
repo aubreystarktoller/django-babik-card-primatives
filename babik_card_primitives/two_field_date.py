@@ -66,15 +66,16 @@ class TwoFieldDate(object):
         _b_months_re = _format_to_re("%b")
         _B_months_re = _format_to_re("%B")
 
-        r = format.replace("%b", _b_months_re, 1)
-        r = r.replace("%B", _B_months_re, 1)
-        r = r.replace("%m", "(?P<m>[0 ]?[1-9]|1[0-2])", 1)
-        r = r.replace("%y", "(?P<y>[0-9]{2})", 1)
-        r = r.replace("%Y", "(?P<Y>[0-9]{4})", 1)
-
-        parts = r.split("%%")
+        parts = format.split("%%")
+        converted_parts = list()
         for part in parts:
-            match = re.search("%(.)", part)
+            r = part.replace("%b", _b_months_re, 1)
+            r = r.replace("%B", _B_months_re, 1)
+            r = r.replace("%m", "(?P<m>[0 ]?[1-9]|1[0-2])", 1)
+            r = r.replace("%y", "(?P<y>[0-9]{2})", 1)
+            r = r.replace("%Y", "(?P<Y>[0-9]{4})", 1)
+
+            match = re.search("%(.)", r)
             if match:
                 c = match.group(1)
                 if c in "yYbBm":
@@ -83,7 +84,9 @@ class TwoFieldDate(object):
                     msg = '"%s" is a bad directive in format string "%s"'
                 raise ValueError(msg % (c, format))
 
-        return "^%s$" % "%".join(parts)
+            converted_parts.append(r)
+
+        return "^%s$" % "%".join(converted_parts)
 
     @classmethod
     def parse(cls, date_string, format):

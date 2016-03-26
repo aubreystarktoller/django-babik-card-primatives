@@ -111,6 +111,12 @@ class TwoFieldDateTestCase(TestCase):
             TwoFieldDate.parse("%-10-2016", "%%-%m-%Y")
         )
 
+    def test_parse_with_valid_numeric_format_and_liternal_percent_next_to_directive(self):
+        self.assertEqual(
+            TwoFieldDate(2016, 10),
+            TwoFieldDate.parse("%10-2016", "%%%m-%Y")
+        )
+
     def test_parse_with_valid_numeric_format_and_short_year(self):
         year = datetime.date.today().year
         y = str(year)[2:]
